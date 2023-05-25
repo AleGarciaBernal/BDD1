@@ -1,0 +1,55 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:debian
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456789
+      MYSQL_REPLICATION_MODE: master
+      MYSQL_DATABASE: bddInventario
+      MYSQL_LOG_CONSOLE: 'true'
+      MYSQL_LOG_BIN: "mysql-bin"
+      MYSQL_USER: replication_user
+      MYSQL_PASSWORD: 123456
+    ports:
+      - "3311:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  slave-db-1:
+    image: mysql:debian
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456789
+      MYSQL_REPLICATION_MODE: slave
+      MYSQL_DATABASE: slave1_db
+      MYSQL_USER: replication_user
+      MYSQL_PASSWORD: 123456
+      MYSQL_MASTER_HOST: db
+      MYSQL_MASTER_PORT: 3311
+      MYSQL_MASTER_USER: replication_user
+      MYSQL_MASTER_PASSWORD: 123456
+      MYSQL_LOG_BIN: "mysql-bin"       
+    depends_on:
+      - db
+    ports:
+      - 3312:3306
+
+  slave-db-2:
+    image: mysql:debian
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456789
+      MYSQL_USER: replication_user
+      MYSQL_REPLICATION_MODE: slave
+      MYSQL_DATABASE: slave2_db
+      MYSQL_PASSWORD: 123456
+      MYSQL_MASTER_HOST: db
+      MYSQL_MASTER_PORT: 3311
+      MYSQL_MASTER_USER: replication_user
+      MYSQL_MASTER_PASSWORD: 123456
+      MYSQL_LOG_BIN: "mysql-bin" 
+    depends_on:
+      - db
+    ports:
+      - 3313:3306
