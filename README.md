@@ -52,4 +52,6 @@ La base de datos está compuesta por las siguientes entidades:
 - Items_Inventario: Establece la relación entre los items y los inventarios, junto con la cantidad de cada item en un inventario determinado.
 
 
+![diagramaER](https://github.com/AleGarciaBernal/BDD1/assets/80707995/7a348af0-20d9-44f1-b636-cc76bb6ca561)
 
+![umlconrelaciones](https://github.com/AleGarciaBernal/BDD1/assets/80707995/0d98e236-f22b-4f61-b636-8fd4ebce495c)
